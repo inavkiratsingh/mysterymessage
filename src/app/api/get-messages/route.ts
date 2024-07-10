@@ -10,16 +10,22 @@ export async function GET(request: Request) {
     await dbConnect()
 
     const session = await getServerSession(authOptions)
-    const user: User = session?.user
+    const _user: User = session?.user
 
-    if(!session || !session.user) {
+    if(!session || !_user) {
         return Response.json({
             success: false,
             message: "Not Authenticated"
         }, { status: 401 })
     }
 
-    const userId = new mongoose.Types.ObjectId(user._id);
+    if(_user){
+        console.log(_user, "extract from s");        
+    }
+
+    const userId = new mongoose.Types.ObjectId(_user._id);
+    
+
     
     try {
         console.log(userId);
@@ -30,11 +36,9 @@ export async function GET(request: Request) {
             { $sort: {'messages.createdAt' : -1} },
             { $group: {_id: '$_id', messages: {$push: '$messages'}} }
         ]).exec();
-
-        console.log(user, "user");
         
 
-        if(!user || user.length === 0) {
+        if(user.length == 0) {
             return Response.json({
                 success: false,
                 message: "User not found"

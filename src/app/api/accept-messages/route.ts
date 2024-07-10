@@ -19,14 +19,21 @@ export async function POST( request: Request ) {
     }
 
     const userId = user._id
-    const {acceptMesssages} = await request.json()
+    const {acceptMessages} = await request.json()
     
     try {
+        console.log(userId);
+        console.log({acceptMessages}, "status");
+        
+        
         const updatedUser = await UserModel.findByIdAndUpdate(
             userId,
-            { isAcceptingMessages: acceptMesssages },
+            { isAcceptingMessages: acceptMessages },
             { new : true }
         )
+        
+        console.log(updatedUser);
+        
 
         if(!updatedUser) {
             return Response.json({
@@ -78,7 +85,7 @@ export async function GET( request: Request ) {
             return Response.json({
                 success: true,
                 message: "user found",
-                isAccceptingMessages: foundUser.isAcceptingMessages
+                isAcceptingMessages: foundUser.isAcceptingMessages
             }, { status: 200 })
     } catch (error) {
         console.log("failed to update user accept messages");
