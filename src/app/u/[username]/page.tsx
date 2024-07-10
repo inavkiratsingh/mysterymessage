@@ -21,7 +21,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Loader2 } from 'lucide-react';
 
 
-function page() {
+function Page() {
 
   const params = useParams<{ username: string }>();
   const username = params.username;
@@ -112,4 +112,4 @@ function page() {
   )
 }
 
-export default page
+export default Page
