@@ -3,6 +3,8 @@ import { Button } from '@/components/ui/button'
 import { useToast } from '@/components/ui/use-toast'
 import axios, { AxiosError } from 'axios'
 import { z } from 'zod';
+import { CardHeader, CardContent, Card } from '@/components/ui/card';
+import Link from 'next/link';
 import {
   Form,
   FormControl,
@@ -19,6 +21,19 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { ApiResponse } from '@/types/ApiResponse';
 import { Textarea } from '@/components/ui/textarea';
 import { Loader2 } from 'lucide-react';
+import { useCompletion } from 'ai/react';
+import { Separator } from '@/components/ui/separator';
+
+
+const specialChar = '||';
+
+const parseStringMessages = (messageString: string): string[] => {
+  return messageString.split(specialChar);
+};
+
+const initialMessageString =
+  "What's your favorite movie?||Do you have any pets?||What's your dream job?";
+
 
 
 function Page() {
@@ -26,6 +41,7 @@ function Page() {
   const params = useParams<{ username: string }>();
   const username = params.username;
 
+  const [message, setmessage] = useState(initialMessageString)
   const { toast } = useToast()
 
   const [isLoading, setIsLoading] = useState(false);
@@ -41,6 +57,7 @@ function Page() {
     form.setValue('content', message);
   };
 
+  const [isSuggestLoading, setisSuggestLoading] = useState(false)
   
   const onSubmit = async (data: z.infer<typeof messageSchema>) => {
     setIsLoading(true);
@@ -65,6 +82,20 @@ function Page() {
       });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const fetchSuggestedMessages = async () => {
+    try {
+      setisSuggestLoading(true)
+      const response = await axios.post('/api/suggest-messages')
+      console.log(response.data.result)
+      setmessage(response.data.result)
+
+      setisSuggestLoading(false)
+    } catch (error) {
+      console.error('Error fetching messages:', error);
+      // Handle error appropriately
     }
   };
 
@@ -108,6 +139,46 @@ function Page() {
           </div>
         </form>
       </Form>
+
+      <div className="space-y-4 my-8">
+        <div className="space-y-2">
+          <Button
+            onClick={fetchSuggestedMessages}
+            className="my-4"
+            disabled={isSuggestLoading}
+          >
+            Suggest Messages
+          </Button>
+          <p>Click on any message below to select it.</p>
+        </div>
+        <Card>
+          <CardHeader>
+            <h3 className="text-xl font-semibold">Messages</h3>
+          </CardHeader>
+          <CardContent className="flex flex-col space-y-4">
+            {
+              parseStringMessages(message).map((message, index) => (
+                <Button
+                  key={index}
+                  variant="outline"
+                  className="mb-2"
+                  onClick={() => handleMessageClick(message)}
+                >
+                  {message}
+                </Button>
+              ))
+            }
+          </CardContent>
+        </Card>
+      </div>
+      <Separator className="my-6" />
+      <div className="text-center">
+        <div className="mb-4">Get Your Message Board</div>
+        <Link href={'/sign-up'}>
+          <Button>Create Your Account</Button>
+        </Link>
+      </div>
+
     </div>
   )
 }

@@ -1,8 +1,5 @@
 'use client';
 
-import Image from 'next/image';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
 import { Mail } from 'lucide-react'; // Assuming you have an icon for messages
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Autoplay from 'embla-carousel-autoplay';
@@ -12,8 +9,6 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from '@/components/ui/carousel';
 
 export default function Home() {
@@ -26,14 +21,14 @@ export default function Home() {
             Dive into the World of Anonymous Feedback
           </h1>
           <p className="mt-3 md:mt-4 text-base md:text-lg">
-            True Feedback - Where your identity remains a secret.
+            Unknown Sandesh - Where your identity remains a secret.
           </p>
         </section>
 
         {/* Carousel for Messages */}
         <Carousel
           plugins={[Autoplay({ delay: 2000 })]}
-          className="w-full lg:h-[614px] flex flex-col justify-center items-center max-w-lg md:max-w-xl"
+          className="w-full lg:h-[345px] flex flex-col justify-center items-center max-w-lg md:max-w-xl"
         >
           <CarouselContent>
             {messages.map((message, index) => (
@@ -60,7 +55,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="text-center p-4 md:p-6 bg-gray-900 text-white">
-        © 2024 True Feedback. All rights reserved.
+        © 2024 Unknown Sandesh. All rights reserved.
       </footer>
     </>
   );
