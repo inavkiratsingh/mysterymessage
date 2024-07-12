@@ -14,9 +14,9 @@ const Navbar = () => {
     
 
     return (
-        <nav className='p-4 md:p-6 shadow-md'>
-            <div className='container mx-auto flex flex-col md:flex-row justify-between items-center'>
-                <a href="#" className='text-xl font-bold mb-4 md:mb-0'>Unknown Sandesh</a>
+        <nav className='py-6 md:p-6 sm:py-6 shadow-md'>
+            <div className='container mx-auto flex sm:flex-row justify-between items-center'>
+                <a href="#" className='lg:text-xl sm:text-nowrap sm:text-lg font-bold md:mb-0'>Unknown Sandesh</a>
                 {
                     session ? (
                         <>
@@ -24,7 +24,7 @@ const Navbar = () => {
                             <Button className='w-full md:w-auto' onClick={() => signOut()}>Logout</Button>
                         </>
                     ) : (
-                        <Link className='w-full md:w-auto' href='/sign-in'>
+                        <Link className='' href='/sign-in'>
                             Login
                         </Link>
                     )

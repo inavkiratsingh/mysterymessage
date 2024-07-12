@@ -158,14 +158,13 @@ function Page() {
           <CardContent className="flex flex-col space-y-4">
             {
               parseStringMessages(message).map((message, index) => (
-                <Button
+                <div
                   key={index}
-                  variant="outline"
-                  className="mb-2"
+                  className="mb-2 text-wrap border-[1px] border-zinc-300 rounded-lg p-4"
                   onClick={() => handleMessageClick(message)}
                 >
                   {message}
-                </Button>
+                </div>
               ))
             }
           </CardContent>
